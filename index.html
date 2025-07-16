@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Little Love Book</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #fff7f0, #ffe6f0);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+    .book {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(255, 120, 140, 0.3);
+      padding: 40px 30px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      animation: popIn 1.5s ease;
+    }
+    @keyframes popIn {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .page {
+      font-size: 1.4rem;
+      color: #d6336c;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .button {
+      margin-top: 30px;
+      background-color: #ff80ab;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .button:hover {
+      background-color: #ff4081;
+    }
+    .page-count {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+      opacity: 0.7;
+    }
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/31/audio_d35e79b4e7.mp3" type="audio/mpeg">
+</audio>
+<div class="book">
+  <div class="page" id="pageText"></div>
+  <div class="page-count" id="pageCount"></div>
+  <button class="button" id="nextBtn">Next</button>
+</div>
+<script>
+  const pages = [
+    "You make my world brighter just by being in it.",
+    "Your smile is my favorite thing in the universe.",
+    "Every moment with you feels like magic.",
+    "I don’t know what tomorrow holds, but I hope you’re in it.",
+    "You’ve quietly become the best part of my day.",
+    "You're not just someone special... you're the one.",
+    "So... this is me saying — I like you. A lot 💗"
+  ];
+  let currentPage = 0;
+  const pageText = document.getElementById("pageText");
+  const pageCount = document.getElementById("pageCount");
+  const nextBtn = document.getElementById("nextBtn");
+  function showPage() {
+    pageText.style.opacity = 0;
+    setTimeout(() => {
+      pageText.textContent = pages[currentPage];
+      pageText.style.opacity = 1;
+      pageCount.textContent = `${currentPage + 1} / ${pages.length}`;
+      nextBtn.textContent = (currentPage === pages.length - 1) ? "Again?" : "Next";
+    }, 300);
+  }
+  nextBtn.addEventListener("click", () => {
+    currentPage = (currentPage + 1) % pages.length;
+    showPage();
+  });
+  showPage();
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(createHeart, 300);
+</script>
+</body>
+</html>
